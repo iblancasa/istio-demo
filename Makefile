@@ -1,4 +1,5 @@
 NAMESPACE_NAME ?= demo
+APP_IMG ?= ttl.sh/iblancasa/demo-app1
 
 
 .PHONY: build-app
@@ -17,7 +18,7 @@ deploy-operators:
 
 .PHONY: create-namespace
 create-namespace:
-	kubectl create namespace -n $(NAMESPACE_NAME) 2>&1 | grep -v "already exists" || true
+	kubectl create namespace $(NAMESPACE_NAME) 2>&1 | grep -v "already exists" || true
 
 .PHONY: deploy-service-mesh
 deploy-service-mesh:
@@ -28,4 +29,9 @@ deploy-gateway:
 	kubectl apply -f config/gateway.yaml
 
 .PHONY: deploy-all
-deploy-all: deploy-operators create-namespace deploy-app deploy-service-mesh deploy-gateway
+deploy-all: deploy-operators create-namespace deploy-service-mesh deploy-app deploy-gateway 
+
+.PHONY: clean
+clean:
+	kubectl delete -f namespace $(NAMESPACE_NAME)
+	kubectl delete -f config

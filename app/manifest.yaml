@@ -43,7 +43,7 @@ spec:
       serviceAccountName: demo-app1
       containers:
       - name: app1
-        image: <image_name>
+        image: ttl.sh/iblancasa/demo-app1
         imagePullPolicy: Always
         ports:
         - containerPort: 9080
