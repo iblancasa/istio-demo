@@ -10,7 +10,7 @@ metadata:
   namespace: istio-system
 spec:
   members:
-  - <demo_namespace>
+  - demo
 ---
 apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane

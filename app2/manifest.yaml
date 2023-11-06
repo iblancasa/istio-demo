@@ -1,49 +1,49 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app1
+  name: app2
   labels:
-    app: app1
-    service: app1
+    app: app2
+    service: app2
 spec:
   ports:
   - port: 9080
     name: http
   selector:
-    app: app1
+    app: app2
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: demo-app1
+  name: demo-app2
   labels:
-    account: app1
+    account: app2
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1-v1
+  name: app2-v1
   labels:
-    app: app1
+    app: app2
     version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app1
+      app: app2
       version: v1
   template:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
       labels:
-        app: app1
+        app: app2
         version: v1
     spec:
-      serviceAccountName: demo-app1
+      serviceAccountName: demo-app2
       containers:
-      - name: app1
-        image: ttl.sh/iblancasa/demo-app1
+      - name: app2
+        image: ttl.sh/iblancasa/demo-app2
         imagePullPolicy: Always
         ports:
         - containerPort: 9080

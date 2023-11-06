@@ -1,5 +1,6 @@
 NAMESPACE_NAME ?= demo
 APP_IMG ?= ttl.sh/iblancasa/demo-app1
+APP2_IMG ?= ttl.sh/iblancasa/demo-app2
 
 
 .PHONY: build-app
@@ -11,6 +12,16 @@ build-app:
 deploy-app:
 	sed -i "s#<image_name>#$(APP_IMG)#g" app/manifest.yaml
 	kubectl apply -f app/manifest.yaml -n $(NAMESPACE_NAME)
+
+.PHONY: build-app2
+build-app2:
+	docker build -t $(APP2_IMG) app2
+	docker push $(APP2_IMG)
+
+.PHONY: deploy-app2
+deploy-app2:
+	sed -i "s#<image_name2>#$(APP2_IMG)#g" app2/manifest.yaml
+	kubectl apply -f app2/manifest.yaml -n $(NAMESPACE_NAME)
  
 .PHONY: deploy-operators
 deploy-operators:
@@ -30,7 +41,7 @@ deploy-gateway:
 	kubectl apply -f config/gateway.yaml
 
 .PHONY: deploy-all
-deploy-all: deploy-operators create-namespace build-app deploy-service-mesh deploy-app deploy-gateway
+deploy-all: deploy-operators create-namespace build-app build-app2 deploy-service-mesh deploy-app deploy-app2 deploy-gateway
 
 .PHONY: clean
 clean:
