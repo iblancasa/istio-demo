@@ -8,7 +8,7 @@ build-app:
 	docker push $(APP_IMG)
 
 .PHONY: deploy-app
-deploy-app: build-app
+deploy-app:
 	sed -i "s#<image_name>#$(APP_IMG)#g" app/manifest.yaml
 	kubectl apply -f app/manifest.yaml -n $(NAMESPACE_NAME)
  
@@ -22,6 +22,7 @@ create-namespace:
 
 .PHONY: deploy-service-mesh
 deploy-service-mesh:
+	sed -i "s#<demo_namespace>#$(NAMESPACE_NAME)#g" config/service-mesh.yaml
 	kubectl apply -f config/service-mesh.yaml
 
 .PHONY: deploy-gateway
@@ -29,9 +30,9 @@ deploy-gateway:
 	kubectl apply -f config/gateway.yaml
 
 .PHONY: deploy-all
-deploy-all: deploy-operators create-namespace deploy-service-mesh deploy-app deploy-gateway 
+deploy-all: deploy-operators create-namespace build-app deploy-service-mesh deploy-app deploy-gateway
 
 .PHONY: clean
 clean:
-	kubectl delete -f namespace $(NAMESPACE_NAME)
-	kubectl delete -f config
+	kubectl delete namespace $(NAMESPACE_NAME) --ignore-not-found=true
+	kubectl delete -f config --ignore-not-found=true
