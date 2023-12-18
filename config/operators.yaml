@@ -73,11 +73,6 @@ spec:
   sourceNamespace: openshift-marketplace
   startingCSV: opentelemetry-operator.v0.81.1-5
 ---
-apiVersion: project.openshift.io/v1
-kind: Project
-metadata:
-  name: openshift-operators
----
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
