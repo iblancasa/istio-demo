@@ -1,14 +1,13 @@
-from flask import Flask, request, Response
 from time import sleep
+import flask
 
-
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 @app.route('/')
 def bye():
     # Simulate some work
-    sleep(2)
-    return Response("bye")
+    sleep(0.15)
+    return flask.Response("bye")
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run()
