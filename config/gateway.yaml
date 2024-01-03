@@ -25,7 +25,15 @@ spec:
   http:
   - match:
     - uri:
-        exact: /
+        exact: /no-header-forwarding
+    route:
+    - destination:
+        host: app1
+        port:
+          number: 9080
+  - match:
+    - uri:
+        exact: /header-forwarding
     route:
     - destination:
         host: app1
