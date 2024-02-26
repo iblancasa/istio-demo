@@ -38,7 +38,7 @@ deploy-service-mesh:
 
 .PHONY: deploy-gateway
 deploy-gateway:
-	kubectl apply -f config/gateway.yaml
+	kubectl apply -f config/gateway.yaml -n demo
 
 .PHONY: deploy-all
 deploy-all: deploy-operators create-namespace build-app build-app2 deploy-service-mesh deploy-app deploy-app2 deploy-gateway
