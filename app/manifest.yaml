@@ -36,6 +36,7 @@ spec:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
+        instrumentation.opentelemetry.io/inject-python: "true"
       labels:
         app: app1
         version: v1

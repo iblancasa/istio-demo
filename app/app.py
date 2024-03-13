@@ -7,6 +7,7 @@ app = flask.Flask(__name__)
 
 def context_get_headers(headers):
     header_names = [
+        # Specification for context propagation headers
         'X-B3-Traceid',
         'X-B3-Spanid',
         'X-B3-Parentspanid',
