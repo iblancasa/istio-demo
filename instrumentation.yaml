@@ -1,0 +1,19 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: python
+  namespace: demo
+spec:
+  exporter:
+    # Python autoinstrumentation uses http/proto by default
+    # so data must be sent to 4318 instead of 4317.
+    endpoint: http://jaeger-collector.istio-system.svc.cluster.local:4318
+  propagators:
+    - tracecontext
+    - baggage
+    - b3multi
+  sampler:
+    type: parentbased_traceidratio
+    argument: "1"
+  resource:
+    addK8sUIDAttributes: true
