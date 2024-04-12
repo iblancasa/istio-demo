@@ -3,6 +3,11 @@ kind: Project
 metadata:
   name: istio-system
 ---
+apiVersion: project.openshift.io/v1
+kind: Project
+metadata:
+  name: tracing-system
+---
 apiVersion: maistra.io/v1
 kind: ServiceMeshMemberRoll
 metadata:
@@ -11,6 +16,7 @@ metadata:
 spec:
   members:
   - demo
+  - tracing-system
 ---
 apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
@@ -21,21 +27,16 @@ spec:
   addons:
     grafana:
       enabled: true
-    jaeger:
-      install:
-        storage:
-          type: Memory
-    kiali:
-      enabled: true
     prometheus:
       enabled: true
-  policy:
-    type: Istiod
-  profiles:
-  - default
-  telemetry:
-    type: Istiod
+    kiali:
+      enabled: true
   tracing:
-    sampling: 10000
-    type: Jaeger
-  version: v2.4
+    type: None
+  meshConfig:
+    extensionProviders:
+      - name: tempo
+        zipkin:
+          service: tempo-sample-distributor.tracing-system.svc.cluster.local
+          port: 9411
+  version: v2.5

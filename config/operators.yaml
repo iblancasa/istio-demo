@@ -1,77 +1,52 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: openshift-operators-redhat
+  name: openshift-tempo-operator
 ---
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: openshift-operators-redhat-og
-  namespace: openshift-operators-redhat
----
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: elasticsearch-operator
-  namespace: openshift-operators-redhat
-spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: elasticsearch-operator
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
----
-apiVersion: project.openshift.io/v1
-kind: Project
-metadata:
-  name: openshift-distributed-tracing
----
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: openshift-distributed-tracing-6c4dh
-  namespace: openshift-distributed-tracing
+  name: openshift-tempo-operator
+  namespace: openshift-tempo-operator
 spec:
   upgradeStrategy: Default
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: jaeger-product
-  namespace: openshift-distributed-tracing
+  name: tempo-product
+  namespace: openshift-tempo-operator
 spec:
   channel: stable
   installPlanApproval: Automatic
-  name: jaeger-product
+  name: tempo-product
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: jaeger-operator.v1.47.1-5
 ---
-apiVersion: project.openshift.io/v1
-kind: Project
-metadata:
-  name: openshift-opentelemetry-operator
----
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: openshift-opentelemetry-operator-ghl6v
-  namespace: openshift-opentelemetry-operator
-spec:
-  upgradeStrategy: Default
----
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: opentelemetry-product
-  namespace: openshift-opentelemetry-operator
-spec:
-  channel: stable
-  installPlanApproval: Automatic
-  name: opentelemetry-product
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
-  startingCSV: opentelemetry-operator.v0.81.1-5
+# apiVersion: project.openshift.io/v1
+# kind: Project
+# metadata:
+#   name: openshift-opentelemetry-operator
+# ---
+# apiVersion: operators.coreos.com/v1
+# kind: OperatorGroup
+# metadata:
+#   name: openshift-opentelemetry-operator-ghl6v
+#   namespace: openshift-opentelemetry-operator
+# spec:
+#   upgradeStrategy: Default
+# ---
+# apiVersion: operators.coreos.com/v1alpha1
+# kind: Subscription
+# metadata:
+#   name: opentelemetry-product
+#   namespace: openshift-opentelemetry-operator
+# spec:
+#   channel: stable
+#   installPlanApproval: Automatic
+#   name: opentelemetry-product
+#   source: redhat-operators
+#   sourceNamespace: openshift-marketplace
 ---
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
@@ -92,7 +67,6 @@ spec:
   name: kiali-ossm
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: kiali-operator.v1.65.9
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
@@ -105,5 +79,4 @@ spec:
   name: servicemeshoperator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: servicemeshoperator.v2.4.4
 ---
